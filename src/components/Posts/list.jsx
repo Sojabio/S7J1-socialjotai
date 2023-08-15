@@ -37,6 +37,38 @@ const List = ({submitCount, setSubmitCount}) => {
     fetchData()
   }, [submitCount]);
 
+  // GERER LES LIKES
+  const handleLike = (postId, likesCount, likingUser) => {
+  const fetchData = async () => {
+
+    const likeData = {
+      "data": {
+        "like": likesCount + 1,
+      }
+    }
+
+    try {
+      const response = await fetch(`http://localhost:1337/api/posts/${postId}`, {
+        method: 'put',
+        headers: {
+          'Authorization': `Bearer ${userInfo.token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(likeData)
+      });
+      if (response.ok) {
+        const jsonData = await response.json();
+        console.log(jsonData.data.attributes.like);
+        setSubmitCount(submitCount + 1);
+      } else {
+        throw new Error('Erreur lors de la connexion');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la requête: ', error);
+    }
+  }
+  fetchData();
+}
 
   // GERER LES SUPPRESSIONS
   const handleDelete = (postId) => {
@@ -64,7 +96,7 @@ const List = ({submitCount, setSubmitCount}) => {
   }
 
 
-  // DISPLAY LA CARD
+  // DISPLAY CARD
   return (
     <div className="container mt-5">
       <h3>Voici la liste des posts</h3>
@@ -83,6 +115,7 @@ const List = ({submitCount, setSubmitCount}) => {
                     <p> Nombre de likes : {post.attributes.like} </p>
                   </div>
                 </Card.Text>
+                <button onClick={() => handleLike(post.id, post.attributes.like, userInfo.username)}> Like </button>
               </Card.Body>
               {post.attributes.user.data.attributes.username === userInfo.username ? (
                 <button onClick={() => handleDelete(post.id)}> supprimer </button>
