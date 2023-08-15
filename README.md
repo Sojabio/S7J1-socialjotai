@@ -7,7 +7,12 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-# commandes pour faire tourner l'appli
+# in order to run the app :
+- ```pnpm install```
+- ```pnpm i react-router-dom```
+- ```npm install react-bootstrap bootstrap```
+- ```npm install jotai react react-dom```
+- ```npm i js-cookie```
 
 # features
 - [x] inscription
@@ -17,7 +22,7 @@ Currently, two official plugins are available:
   - [x] visible si utilisateurice connectée
   - [x] permet à l'utilisateurice de modifier son profil (username et mail)
   - [ ] permet à l'utilisateurice d'ajouter et modifier une description
-- [ ] page d'accueil visible par utilisateur connecté
+- [x] page d'accueil visible par utilisateur connecté
   - [x] input de type texte et bouton d'envoi
   - [x] liste de posts des plus récents aux plus anciens
   - [x] ses propres posts parmi les posts existant

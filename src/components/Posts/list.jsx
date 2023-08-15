@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
 import { authAtom } from "../../atoms/authAtoms";
 import { Link } from 'react-router-dom';
+import DropdownButton from './dropdown';
 
 const List = ({submitCount, setSubmitCount}) => {
   const [posts, setPosts] = useState([])
@@ -140,6 +141,10 @@ const List = ({submitCount, setSubmitCount}) => {
             </Card>
           )
         })}
+      </>
+      <>
+      Voir les <DropdownButton/> premiers posts
+
       </>
     </div>
   )
