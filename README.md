@@ -16,12 +16,14 @@ Currently, two official plugins are available:
 - [x] page profil
   - [x] visible si utilisateurice connectée
   - [x] permet à l'utilisateurice de modifier son profil (username et mail)
-- [ ]page d'accueil visible par utilisateur connecté
+  - [ ] permet à l'utilisateurice d'ajouter et modifier une description
+- [ ] page d'accueil visible par utilisateur connecté
   - [x] input de type texte et bouton d'envoi
   - [x] liste de posts des plus récents aux plus anciens
   - [x] ses propres posts parmi les posts existant
-  - [ ] le username cliquable de la personne qui a écrit le post redirige vers le profil
+  - [x] le username cliquable de la personne qui a écrit le post redirige vers le profil
+- [x] page profil d'une autre utilisateurice affiche liste de ses posts
 - [ ] likes et unlikes
 - [x] suppression d'un message par son auteurice
 - [ ] filtrer les posts pour limiter le nombre de résultats
-- [x] trier les posts par ordre de création
+- [ ] trier les posts par ordre de création

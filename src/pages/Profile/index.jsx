@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react"
-import { userAtom } from "../../atoms/authAtoms"
-import { isAuthenticatedAtom } from "../../atoms/authAtoms"
 import { useAtom } from 'jotai'
+import { authAtom } from "../../atoms/authAtoms"
 import Cookies from 'js-cookie'
 
 const Profile = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   // const [description, setDescription] = useState('')
-  const [user, setUser] = useAtom(userAtom);
-  const [isAuthenticated] = useAtom(isAuthenticatedAtom);
-  const jwtToken = Cookies.get('token');
-  const userId = Cookies.get('userId');
+  const [userInfo, setUserInfo] = useAtom(authAtom);
+  // const jwtToken = Cookies.get('token');
+  // const userId = Cookies.get('userId');
 
 
   const handleSubmit = (e) => {
@@ -24,21 +22,22 @@ const Profile = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:1337/api/users/${userId}`, {
+      const response = await fetch(`http://localhost:1337/api/users/${userInfo.userId}`, {
         method: 'put',
         headers: {
-          'Authorization': `Bearer ${jwtToken}`,
+          'Authorization': `Bearer ${userInfo.token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newDatas)
       });
       if (response.ok) {
         const jsonData = await response.json();
-        Cookies.set('token', jwtToken);
-        setUser({
+        // Cookies.set('token', jwtToken);
+        setUserInfo({
+          isLoggedIn: true,
+          userId: jsonData.id,
           username: jsonData.username,
-          email: jsonData.email,
-          token: jwtToken
+          token: jsonData.jwt
         });
         console.log("votre profil a bien été mis à jour")
       } else {
@@ -56,15 +55,16 @@ const Profile = () => {
   return (
     <div className="container mt-5">
       <>
-      { user && isAuthenticated && (
+      { userInfo.isLoggedIn && (
         <>
-        <p>Ceci est le profil de {user.username}</p>
-        <p>mail: {user.email}</p>
+        <p>Ceci est le profil de {userInfo.username}</p>
         </>
       )}
       </>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
+          <h3> Modifier mes informations :
+          </h3>
           <label htmlFor="username" className="form-label">
             Username:
           </label>

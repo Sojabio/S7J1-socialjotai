@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useAtom } from 'jotai';
-import { userAtom } from "../../atoms/authAtoms";
-import { isAuthenticatedAtom } from "../../atoms/authAtoms";
+import { authAtom } from "../../atoms/authAtoms";
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 
 function Register() {
-  const [user, setUser] = useAtom(userAtom);
-  const [isAuthenticated, setIsAuthenticated] = useAtom(isAuthenticatedAtom)
+  const [userInfo, setUserInfo] = useAtom(authAtom);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,10 +19,6 @@ function Register() {
       email: email,
       password: password
     };
-
-    setUser(data);
-    setIsAuthenticated(true);
-    console.log(data)
 
     try {
       const response = await fetch('http://localhost:1337/api/auth/local/register', {
@@ -43,6 +37,14 @@ function Register() {
         Cookies.set('userId', userId);
         console.log('Inscription réussie');
         console.log(userId);
+        console.log(jwtToken)
+        console.log(responseData)
+        setUserInfo({
+          isLoggedIn: true,
+          userId: responseData.user.id,
+          username: responseData.user.username,
+          token: jwtToken
+        });
         navigate('/')
       } else {
         throw new Error('Erreur lors de l\'inscription');

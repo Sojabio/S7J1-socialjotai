@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import LogoutButton from '../Auth/LogoutButton';
 import { useAtom } from 'jotai';
-import { isAuthenticatedAtom } from '../../atoms/authAtoms';
+import { authAtom } from '../../atoms/authAtoms';
 
 const NavBar = () => {
-  const [isAuthenticated] = useAtom(isAuthenticatedAtom); // Destructuring the state value
+  const [userInfo] = useAtom(authAtom);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -12,7 +12,7 @@ const NavBar = () => {
         <Link className="navbar-brand" to="/">
           Home
         </Link>
-        {isAuthenticated ? (
+        {userInfo.isLoggedIn ? (
           <>
             <Link className="navbar-brand" to="/Profile">
               Profil

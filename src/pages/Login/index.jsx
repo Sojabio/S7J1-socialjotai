@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useAtom } from 'jotai';
-import { userAtom } from "../../atoms/authAtoms";
-import { isAuthenticatedAtom } from "../../atoms/authAtoms";
+import { authAtom } from "../../atoms/authAtoms";
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 
 function Login() {
-  const [user, setUser] = useAtom(userAtom);
-  const [isAuthenticated, setIsAuthenticated] = useAtom(isAuthenticatedAtom)
+  const [userInfo, setUserInfo] = useAtom(authAtom);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -32,15 +30,12 @@ function Login() {
       if (response.ok) {
         const responseData = await response.json();
         const jwtToken = responseData.jwt;
-        setUser({
+        setUserInfo({
+          isLoggedIn: true,
           userId: responseData.user.id,
           username: responseData.user.username,
-          email: responseData.user.email,
-          password: password,
           token: jwtToken
         });
-
-        setIsAuthenticated(true);
         console.log('Connexion réussie');
         console.log(responseData.jwt)
         navigate('/')

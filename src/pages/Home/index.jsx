@@ -1,16 +1,16 @@
-import { userAtom } from "../../atoms/authAtoms"
 import {useAtom} from 'jotai'
+import { authAtom } from '../../atoms/authAtoms';
 import Input from "../../components/Posts/input";
 
 
 const Home = () => {
-  const [user] = useAtom(userAtom);
+  const [userInfo] = useAtom(authAtom);
   return (
     <div>
       <p>ceci est la page home </p>
-      {user ? (
+      {userInfo.isLoggedIn ? (
         <>
-          <h1>Hello {user.username}</h1>
+          <h1>Hello {userInfo.username}</h1>
           <Input />
         </>
       ) : (

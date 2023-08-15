@@ -1,12 +1,17 @@
 import { useState } from "react"
 import Cookies from "js-cookie";
 import List from "./list";
+import { useAtom } from 'jotai';
+import { authAtom } from "../../atoms/authAtoms";
 
 const Input = () => {
   const [postContent, setPostContent] = useState('');
-  const jwtToken = Cookies.get('token');
-  const userId = Cookies.get('userId');
+  // const jwtToken = Cookies.get('token');
+  // const userId = Cookies.get('userId');
   const [submitCount, setSubmitCount] = useState(0);
+  const [userInfo] = useAtom(authAtom);
+  const jwtToken = userInfo.token;
+  const userId = userInfo.userId;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +23,8 @@ const Input = () => {
       }
     }
 
+    console.log(jwtToken)
+
     try {
       const response = await fetch('http://localhost:1337/api/posts', {
         method: 'post',
@@ -28,7 +35,7 @@ const Input = () => {
         body: JSON.stringify(objectData)
       });
       if (response.ok) {
-        console.log("le post a été envoyé")
+        console.log(`le post a été envoyé par ${userInfo.username}`)
         setSubmitCount(submitCount + 1);
       } else {
         throw new Error('Erreur lors de la connexion');
