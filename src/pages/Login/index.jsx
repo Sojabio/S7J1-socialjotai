@@ -30,6 +30,12 @@ function Login() {
       if (response.ok) {
         const responseData = await response.json();
         const jwtToken = responseData.jwt;
+        const userInfoCookie = {
+          token: jwtToken,
+          username: responseData.user.username,
+          userId: responseData.user.id
+        };
+        Cookies.set('userInfoCookie', JSON.stringify(userInfoCookie));
         setUserInfo({
           isLoggedIn: true,
           userId: responseData.user.id,

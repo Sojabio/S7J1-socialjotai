@@ -32,12 +32,18 @@ const Profile = () => {
       });
       if (response.ok) {
         const jsonData = await response.json();
-        // Cookies.set('token', jwtToken);
+        const jwtToken = jsonData.jwt;
+        const userInfoCookie = {
+          token: jwtToken,
+          username: jsonData.user.username,
+          userId: jsonData.user.id
+        };
+        Cookies.set('userInfoCookie', JSON.stringify(userInfoCookie));
         setUserInfo({
           isLoggedIn: true,
-          userId: jsonData.id,
-          username: jsonData.username,
-          token: jsonData.jwt
+          userId: jsonData.user.id,
+          username: jsonData.user.username,
+          token: jwtToken
         });
         console.log("votre profil a bien été mis à jour")
       } else {

@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './index.css'
@@ -9,8 +10,26 @@ import Navbar from './components/Header/Navbar';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import PublicProfile from './pages/PublicProfile';
+import { useAtom } from 'jotai';
+import { authAtom } from './atoms/authAtoms';
+import Cookies from 'js-cookie';
 
 const App = () => {
+
+  const [userInfo, setUserInfo] = useAtom(authAtom);
+
+  useEffect(() => {
+    const userInfoCookie = Cookies.get('userInfoCookie')
+    if (userInfoCookie) {
+      const userInfo = JSON.parse(userInfoCookie)
+      setUserInfo({
+        isLoggedIn: true,
+        token: userInfo.token,
+        userId: userInfo.userId,
+        username: userInfo.username
+      });
+    }
+  }, []);
 
   return(
   <React.StrictMode>

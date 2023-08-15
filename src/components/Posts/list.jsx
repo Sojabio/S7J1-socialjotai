@@ -53,12 +53,10 @@ const List = ({submitCount, setSubmitCount}) => {
         setLikingUsers(prevLikingUsers =>
         prevLikingUsers.filter(user => user !== likingUser)
         );
-        setLikedByCurrentUser(false)
         console.log(likingUsers)
       } else {
         likeData.data.like = likesCount + 1;
         setLikingUsers(prevLikingUsers => [...prevLikingUsers, likingUser]);
-        setLikedByCurrentUser(true)
         console.log(likingUsers)
       }
 

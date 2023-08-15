@@ -26,4 +26,3 @@ Currently, two official plugins are available:
 - [ ] likes et unlikes
 - [x] suppression d'un message par son auteurice
 - [ ] filtrer les posts pour limiter le nombre de résultats
-- [ ] trier les posts par ordre de création
