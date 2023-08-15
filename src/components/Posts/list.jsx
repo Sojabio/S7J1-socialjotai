@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 
 const List = ({submitCount, setSubmitCount}) => {
   const [posts, setPosts] = useState([])
+  const [likingUsers, setLikingUsers] = useState([])
+  const [likedByCurrentUser, setLikedByCurrentUser] = useState(false);
   const [userInfo] = useAtom(authAtom);
   const jwtToken = userInfo.token;
   const userId = userInfo.userId;
@@ -39,36 +41,51 @@ const List = ({submitCount, setSubmitCount}) => {
 
   // GERER LES LIKES
   const handleLike = (postId, likesCount, likingUser) => {
-  const fetchData = async () => {
+    const fetchData = async () => {
+      let likeData = {
+        data: {
+          like: likesCount
+        }
+      };
 
-    const likeData = {
-      "data": {
-        "like": likesCount + 1,
-      }
-    }
-
-    try {
-      const response = await fetch(`http://localhost:1337/api/posts/${postId}`, {
-        method: 'put',
-        headers: {
-          'Authorization': `Bearer ${userInfo.token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(likeData)
-      });
-      if (response.ok) {
-        const jsonData = await response.json();
-        console.log(jsonData.data.attributes.like);
-        setSubmitCount(submitCount + 1);
+      if (likingUsers.includes(likingUser)) {
+        likeData.data.like = likesCount - 1;
+        setLikingUsers(prevLikingUsers =>
+        prevLikingUsers.filter(user => user !== likingUser)
+        );
+        setLikedByCurrentUser(false)
+        console.log(likingUsers)
       } else {
-        throw new Error('Erreur lors de la connexion');
+        likeData.data.like = likesCount + 1;
+        setLikingUsers(prevLikingUsers => [...prevLikingUsers, likingUser]);
+        setLikedByCurrentUser(true)
+        console.log(likingUsers)
       }
-    } catch (error) {
-      console.error('Erreur lors de la requête: ', error);
-    }
-  }
-  fetchData();
-}
+
+
+      try {
+        const response = await fetch(`http://localhost:1337/api/posts/${postId}`, {
+          method: 'put',
+          headers: {
+            'Authorization': `Bearer ${userInfo.token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(likeData)
+        });
+
+        if (response.ok) {
+          const jsonData = await response.json();
+          console.log(jsonData.data.attributes.like);
+          setSubmitCount(submitCount + 1);
+        } else {
+          throw new Error('Erreur lors de la connexion');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la requête: ', error);
+      }
+    };
+    fetchData();
+  };
 
   // GERER LES SUPPRESSIONS
   const handleDelete = (postId) => {
