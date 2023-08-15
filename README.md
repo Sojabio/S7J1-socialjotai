@@ -10,10 +10,10 @@ Currently, two official plugins are available:
 # commandes pour faire tourner l'appli
 
 # features
-- [x]inscription
-- [x]connexion
-- [x]déconnexion
-- [x]page profil
+- [x] inscription
+- [x] connexion
+- [x] déconnexion
+- [x] page profil
   - [x] visible si utilisateurice connectée
   - [x] permet à l'utilisateurice de modifier son profil (username et mail)
 - [ ]page d'accueil visible par utilisateur connecté
