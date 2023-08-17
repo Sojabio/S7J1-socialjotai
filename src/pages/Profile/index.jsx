@@ -35,14 +35,14 @@ const Profile = () => {
         const jwtToken = jsonData.jwt;
         const userInfoCookie = {
           token: jwtToken,
-          username: jsonData.user.username,
-          userId: jsonData.user.id
+          username: jsonData.username,
+          userId: jsonData.id
         };
         Cookies.set('userInfoCookie', JSON.stringify(userInfoCookie));
         setUserInfo({
           isLoggedIn: true,
-          userId: jsonData.user.id,
-          username: jsonData.user.username,
+          userId: jsonData.id,
+          username: jsonData.username,
           token: jwtToken
         });
         console.log("votre profil a bien été mis à jour")
